@@ -1,0 +1,21 @@
+<div class="game-container">
+  <div class="game-info">
+    <div>🚩 {{ flagsRemaining() }}</div>
+    <div *ngIf="gameState === GameState.Won">You Won!</div>
+    <div *ngIf="gameState === GameState.Lost">You Lost!</div>
+    <button (click)="resetGame()">Reset Game</button>
+  </div>
+  <div class="board">
+    <div *ngFor="let row of board; let i = index" class="row">
+      <div *ngFor="let cell of row; let j = index" class="cell" 
+           (click)="revealCell(i, j)" 
+           (contextmenu)="flagCell($event, i, j)"
+           [class.revealed]="cell.isRevealed"
+           [class.flagged]="cell.isFlagged">
+        <span *ngIf="cell.isRevealed && !cell.hasMine">{{ cell.adjacentMines }}</span>
+        <span *ngIf="cell.isRevealed && cell.hasMine">💣</span>
+        <span *ngIf="cell.isFlagged">🚩</span>
+      </div>
+    </div>
+  </div>
+</div>

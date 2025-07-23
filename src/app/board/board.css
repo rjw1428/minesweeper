@@ -1,0 +1,48 @@
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.game-info {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.game-info div {
+  margin-right: 10px;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(10, 30px);
+  grid-template-rows: repeat(10, 30px);
+  gap: 1px;
+  background-color: #ccc;
+  border: 1px solid #999;
+}
+
+.row {
+  display: contents;
+}
+
+.cell {
+  width: 30px;
+  height: 30px;
+  background-color: #eee;
+  border: 1px solid #999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.cell.revealed {
+  background-color: #ddd;
+}
+
+.cell.flagged {
+  background-color: #ffc;
+}
