@@ -33,3 +33,9 @@ body.dark-mode .cell.flagged {
 body.dark-mode .cell.mine {
   background-color: #a00;
 }
+
+body.dark-mode .row-indicator,
+body.dark-mode .column-indicator {
+  background-color: #222; /* Darker background for indicators in dark mode */
+  color: #bbb; /* Lighter text color for indicators in dark mode */
+}

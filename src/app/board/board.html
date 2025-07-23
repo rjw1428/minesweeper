@@ -4,18 +4,26 @@
     <div *ngIf="gameState === GameState.Won">You Won!</div>
     <div *ngIf="gameState === GameState.Lost">You Lost!</div>
     <button (click)="resetGame()" class="reset-button">Reset Game</button>
+    <div>{{ percentCompleted() }}% Completed</div>
   </div>
   <div class="board">
     <div *ngFor="let row of board; let i = index" class="row">
+      <div class="row-indicator" [style.grid-row]="i + 1" [style.grid-column]="1">{{ i + 1 }}</div>
       <div *ngFor="let cell of row; let j = index" class="cell" 
            (click)="revealCell(i, j)" 
            (contextmenu)="flagCell($event, i, j)"
            [class.revealed]="cell.isRevealed"
-           [class.flagged]="cell.isFlagged">
-        <span *ngIf="cell.isRevealed && !cell.hasMine">{{ cell.adjacentMines }}</span>
+           [class.flagged]="cell.isFlagged"
+           [style.grid-row]="i + 1"
+           [style.grid-column]="j + 2">
+        <span *ngIf="cell.isRevealed && !cell.hasMine && cell.adjacentMines > 0">{{ cell.adjacentMines }}</span>
         <span *ngIf="cell.isRevealed && cell.hasMine">💣</span>
-        <span *ngIf="cell.isFlagged">🚩</span>
+        <span *ngIf="cell.isFlagged && !cell.isIncorrectlyFlagged">🚩</span>
+        <span *ngIf="cell.isIncorrectlyFlagged">🏳️</span>
       </div>
+    </div>
+    <div class="column-indicators">
+      <div *ngFor="let col of board[0]; let j = index" class="column-indicator" [style.grid-column]="j + 2" [style.grid-row]="board.length + 1">{{ j | columnLetter }}</div>
     </div>
   </div>
 </div>

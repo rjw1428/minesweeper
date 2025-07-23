@@ -16,11 +16,28 @@
 
 .board {
   display: grid;
-  grid-template-columns: repeat(10, 30px);
-  grid-template-rows: repeat(10, 30px);
+  grid-template-columns: 30px repeat(10, 30px); /* 1st col for row indicators, next 10 for cells */
+  grid-template-rows: repeat(10, 30px) 30px; /* 10 rows for cells, last row for column indicators */
   gap: 1px;
   background-color: #ccc;
   border: 1px solid #999;
+}
+
+.row-indicator,
+.column-indicator {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px; /* Smaller font size */
+  font-weight: normal; /* Normal font weight */
+  background-color: #f0f0f0; /* Slightly different background */
+  color: #555; /* Different text color */
+}
+
+.column-indicators {
+  display: contents; /* Allow children to be placed directly in the grid */
 }
 
 .row {
@@ -56,7 +73,7 @@
   padding: 5px 15px;
   font-size: 16px;
   cursor: pointer;
-  margin-left: 10px;
+  margin: 0 10px; /* Added 10px margin to left and right */
 }
 
 .reset-button:active {

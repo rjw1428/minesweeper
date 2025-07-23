@@ -1,11 +1,12 @@
 import { Component, OnInit, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GameService, Cell, GameState } from '../game';
+import { ColumnLetterPipe } from '../column-letter-pipe';
 
 @Component({
   selector: 'app-board',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ColumnLetterPipe],
   templateUrl: './board.html',
   styleUrl: './board.css'
 })
@@ -13,10 +14,12 @@ export class BoardComponent implements OnInit {
   board: Cell[][] = [];
   gameState!: GameState;
   flagsRemaining = signal(0);
+  percentCompleted = signal(0);
 
   constructor(private gameService: GameService) {
     effect(() => {
       this.flagsRemaining.set(this.gameService.getFlagsRemaining());
+      this.percentCompleted.set(this.gameService.percentCompleted());
     });
   }
 
@@ -24,6 +27,7 @@ export class BoardComponent implements OnInit {
     this.board = this.gameService.getBoard();
     this.gameState = this.gameService.getGameState();
     this.flagsRemaining.set(this.gameService.getFlagsRemaining());
+    this.percentCompleted.set(this.gameService.percentCompleted());
   }
 
   get GameState() {

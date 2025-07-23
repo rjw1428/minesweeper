@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 
 export interface Cell {
   hasMine: boolean;
   isRevealed: boolean;
   isFlagged: boolean;
   adjacentMines: number;
+  isIncorrectlyFlagged?: boolean; // Added for incorrect flags
 }
 
 export enum GameState {
@@ -23,6 +24,7 @@ export class GameService {
   private readonly cols = 10;
   private readonly mines = 15;
   private gameState: GameState = GameState.InProgress;
+  public percentCompleted = signal(0);
 
   constructor() {
     this.initializeBoard();
@@ -62,6 +64,7 @@ export class GameService {
         }
       }
     }
+    this.updatePercentCompleted();
   }
 
   private calculateAdjacentMines(row: number, col: number): number {
@@ -99,6 +102,7 @@ export class GameService {
 
     if (cell.hasMine) {
       this.gameState = GameState.Lost;
+      this.revealAllMines();
       console.log('Game Over');
       return;
     }
@@ -116,23 +120,27 @@ export class GameService {
       }
     }
     this.checkWinCondition();
+    this.updatePercentCompleted();
   }
 
   flagCell(row: number, col: number): void {
     const cell = this.board[row][col];
     if (!cell.isRevealed && this.gameState === GameState.InProgress) {
-      cell.isFlagged = !cell.isFlagged;
-      if (cell.isFlagged) {
+      if (!cell.isFlagged && this.flagsPlaced < this.mines) {
+        cell.isFlagged = true;
         this.flagsPlaced++;
-      } else {
+      } else if (cell.isFlagged) {
+        cell.isFlagged = false;
         this.flagsPlaced--;
       }
     }
+    this.updatePercentCompleted();
   }
 
   resetGame(): void {
     this.flagsPlaced = 0;
     this.initializeBoard();
+    this.updatePercentCompleted();
   }
 
   getFlagsRemaining(): number {
@@ -143,7 +151,7 @@ export class GameService {
     let revealedCells = 0;
     for (let r = 0; r < this.rows; r++) {
       for (let c = 0; c < this.cols; c++) {
-        if (this.board[r][c].isRevealed) {
+        if (this.board[r][c].isRevealed && !this.board[r][c].hasMine) {
           revealedCells++;
         }
       }
@@ -152,6 +160,33 @@ export class GameService {
     if (revealedCells === this.rows * this.cols - this.mines) {
       this.gameState = GameState.Won;
       console.log('You Won!');
+    }
+  }
+
+  private updatePercentCompleted(): void {
+    let revealedNonMineCells = 0;
+    let totalNonMineCells = this.rows * this.cols - this.mines;
+
+    for (let r = 0; r < this.rows; r++) {
+      for (let c = 0; c < this.cols; c++) {
+        if (this.board[r][c].isRevealed && !this.board[r][c].hasMine) {
+          revealedNonMineCells++;
+        }
+      }
+    }
+    this.percentCompleted.set(totalNonMineCells > 0 ? Math.floor((revealedNonMineCells / totalNonMineCells) * 100) : 0);
+  }
+
+  private revealAllMines(): void {
+    for (let r = 0; r < this.rows; r++) {
+      for (let c = 0; c < this.cols; c++) {
+        const cell = this.board[r][c];
+        if (cell.hasMine && !cell.isFlagged) {
+          cell.isRevealed = true;
+        } else if (!cell.hasMine && cell.isFlagged) {
+          cell.isIncorrectlyFlagged = true;
+        }
+      }
     }
   }
 }
