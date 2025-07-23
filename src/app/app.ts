@@ -9,4 +9,8 @@ import { BoardComponent } from './board/board';
 })
 export class App {
   protected readonly title = signal('minesweeper-ui');
+
+  public toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+  }
 }

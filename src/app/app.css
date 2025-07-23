@@ -1,0 +1,44 @@
+.dark-mode-toggle {
+  margin-top: 20px; /* Add padding */
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center;
+  gap: 10px;
+}
+
+h1 {
+  text-align: center;
+}
+
+/* Style the checkbox as a toggle switch */
+.dark-mode-toggle input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  width: 40px;
+  height: 20px;
+  background: #ccc;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.dark-mode-toggle input[type="checkbox"]::before {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  top: 1px;
+  left: 1px;
+  transition: 0.3s;
+}
+
+.dark-mode-toggle input[type="checkbox"]:checked {
+  background: #66bb6a;
+}
+
+.dark-mode-toggle input[type="checkbox"]:checked::before {
+  transform: translateX(20px);
+}

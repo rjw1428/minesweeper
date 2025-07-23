@@ -3,7 +3,7 @@
     <div>🚩 {{ flagsRemaining() }}</div>
     <div *ngIf="gameState === GameState.Won">You Won!</div>
     <div *ngIf="gameState === GameState.Lost">You Lost!</div>
-    <button (click)="resetGame()">Reset Game</button>
+    <button (click)="resetGame()" class="reset-button">Reset Game</button>
   </div>
   <div class="board">
     <div *ngFor="let row of board; let i = index" class="row">
