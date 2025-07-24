@@ -1,7 +1,9 @@
 import { Component, OnInit, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GameService, Cell, GameState } from '../game';
-import { ColumnLetterPipe } from '../column-letter-pipe';
+import { Cell } from '../models/models';
+import { ColumnLetterPipe } from '../utils/column-letter-pipe';
+import { GameService } from '../services/game.service';
+import { GameState } from '../models/enums';
 
 @Component({
   selector: 'app-board',
@@ -12,9 +14,11 @@ import { ColumnLetterPipe } from '../column-letter-pipe';
 })
 export class BoardComponent implements OnInit {
   board: Cell[][] = [];
-  gameState!: GameState;
+  gameState: GameState = GameState.InProgress;
   flagsRemaining = signal(0);
   percentCompleted = signal(0);
+
+  readonly GameState = GameState;
 
   constructor(private gameService: GameService) {
     effect(() => {
@@ -28,10 +32,6 @@ export class BoardComponent implements OnInit {
     this.gameState = this.gameService.getGameState();
     this.flagsRemaining.set(this.gameService.getFlagsRemaining());
     this.percentCompleted.set(this.gameService.percentCompleted());
-  }
-
-  get GameState() {
-    return GameState;
   }
 
   revealCell(row: number, col: number) {

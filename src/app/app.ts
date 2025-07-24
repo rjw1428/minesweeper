@@ -1,4 +1,4 @@
-import { Component, signal, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BoardComponent } from './board/board';
 
 @Component({
@@ -8,7 +8,6 @@ import { BoardComponent } from './board/board';
   styleUrl: './app.css'
 })
 export class App implements OnInit {
-  protected readonly title = signal('minesweeper');
   public isDarkMode: boolean = false;
 
   ngOnInit() {

@@ -1,4 +1,5 @@
-import { GameService, Cell, GameState } from './game.service';
+import { GameState } from '../models/enums';
+import { GameService } from './game.service';
 
 describe('GameService', () => {
   let service: GameService;

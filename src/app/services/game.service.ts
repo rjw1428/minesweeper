@@ -1,25 +1,14 @@
 import { Injectable, signal } from '@angular/core';
+import { Cell } from '../models/models';
+import { GameState } from '../models/enums';
 
-export interface Cell {
-  hasMine: boolean;
-  isRevealed: boolean;
-  isFlagged: boolean;
-  adjacentMines: number;
-  isIncorrectlyFlagged?: boolean; // Added for incorrect flags
-}
-
-export enum GameState {
-  InProgress,
-  Won,
-  Lost
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
   private board: Cell[][] = [];
-  private flagsPlaced: number = 0;
+  private flagsPlaced = 0;
   private readonly rows = 10;
   private readonly cols = 10;
   private readonly mines = 15;
@@ -32,7 +21,7 @@ export class GameService {
 
   private initializeBoard(): void {
     this.gameState = GameState.InProgress;
-    // Initialize the board with empty cells
+
     for (let r = 0; r < this.rows; r++) {
       this.board[r] = [];
       for (let c = 0; c < this.cols; c++) {
