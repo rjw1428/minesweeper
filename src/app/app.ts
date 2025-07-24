@@ -8,7 +8,7 @@ import { BoardComponent } from './board/board';
   styleUrl: './app.css'
 })
 export class App implements OnInit {
-  protected readonly title = signal('minesweeper-ui');
+  protected readonly title = signal('minesweeper');
   public isDarkMode: boolean = false;
 
   ngOnInit() {

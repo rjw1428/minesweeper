@@ -4,7 +4,7 @@
     <div *ngIf="gameState === GameState.Won">You Won!</div>
     <div *ngIf="gameState === GameState.Lost">You Lost!</div>
     <button (click)="resetGame()" class="reset-button">Reset Game</button>
-    <div>{{ percentCompleted() }}% Completed</div>
+    <div>{{ percentCompleted() }}%</div>
   </div>
   <div class="board">
     <div *ngFor="let row of board; let i = index" class="row">

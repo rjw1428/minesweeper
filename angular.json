@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "minesweeper-ui": {
+    "minesweeper": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -56,10 +56,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "minesweeper-ui:build:production"
+              "buildTarget": "minesweeper:build:production"
             },
             "development": {
-              "buildTarget": "minesweeper-ui:build:development"
+              "buildTarget": "minesweeper:build:development"
             }
           },
           "defaultConfiguration": "development"
