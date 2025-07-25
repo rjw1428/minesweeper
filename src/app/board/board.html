@@ -1,8 +1,9 @@
 <div class="game-container">
   <div class="game-info">
     <div>🚩 {{ flagsRemaining() }}</div>
-    <div *ngIf="gameState === GameState.Won">You Won!</div>
-    <div *ngIf="gameState === GameState.Lost">You Lost!</div>
+    <div *ngIf="gameState === GameState.Won || gameState === GameState.Lost" class="game-over-message">
+      {{ gameState === GameState.Won ? 'You Won!' : 'You Lost!' }}
+    </div>
     <button (click)="resetGame()" class="reset-button">Reset Game</button>
     <div>{{ percentCompleted() }}%</div>
   </div>
