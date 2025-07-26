@@ -1,11 +1,18 @@
 import { GameState } from '../models/enums';
 import { GameService } from './game.service';
 
+
+const boardConfig = {  
+  rows: 20,
+  columns: 20,
+  mines: 10
+};
+
 describe('GameService', () => {
   let service: GameService;
 
   beforeEach(() => {
-    service = new GameService();
+    service = new GameService(boardConfig);
   });
 
   it('should be created', () => {
@@ -14,21 +21,21 @@ describe('GameService', () => {
 
   it('should initialize the board with correct dimensions', () => {
     const board = service.getBoard();
-    expect(board.length).toBe(10);
-    expect(board[0].length).toBe(10);
+    expect(board.length).toBe(boardConfig.rows);
+    expect(board[0].length).toBe(boardConfig.columns);
   });
 
   it('should place the correct number of mines', () => {
     const board = service.getBoard();
     let mineCount = 0;
-    for (let r = 0; r < 10; r++) {
-      for (let c = 0; c < 10; c++) {
+    for (let r = 0; r < boardConfig.rows; r++) {
+      for (let c = 0; c < boardConfig.columns; c++) {
         if (board[r][c].hasMine) {
           mineCount++;
         }
       }
     }
-    expect(mineCount).toBe(15);
+    expect(mineCount).toBe(boardConfig.mines);
   });
 
   it('should reveal a cell', () => {
@@ -54,8 +61,8 @@ describe('GameService', () => {
     const board = service.getBoard();
     // Find a mine and reveal it
     let mineFound = false;
-    for (let r = 0; r < 10; r++) {
-      for (let c = 0; c < 10; c++) {
+    for (let r = 0; r < boardConfig.rows; r++) {
+      for (let c = 0; c < boardConfig.columns; c++) {
         if (board[r][c].hasMine) {
           service.revealCell(r, c);
           mineFound = true;
@@ -70,8 +77,8 @@ describe('GameService', () => {
   it('should set game state to Won when all non-mine cells are revealed', () => {
     const board = service.getBoard();
     // Reveal all non-mine cells
-    for (let r = 0; r < 10; r++) {
-      for (let c = 0; c < 10; c++) {
+    for (let r = 0; r < boardConfig.rows; r++) {
+      for (let c = 0; c < boardConfig.columns; c++) {
         if (!board[r][c].hasMine) {
           service.revealCell(r, c);
         }

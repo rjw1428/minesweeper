@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BoardComponent } from './board';
+import { BOARD_CONFIG, defaultBoardConfig } from '../app.config';
 
 describe('Board', () => {
   let component: BoardComponent;
@@ -8,7 +9,10 @@ describe('Board', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BoardComponent]
+      imports: [BoardComponent],
+      providers: [
+        { provide: BOARD_CONFIG, useValue: defaultBoardConfig }
+      ]
     })
     .compileComponents();
 
