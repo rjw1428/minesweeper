@@ -17,6 +17,7 @@
             "polyfills": [
               "zone.js"
             ],
+            "baseHref": "/minesweeper/",
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
