@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, effect } from '@angular/core';
+import { Component, OnInit, signal, effect, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Cell } from '../models/models';
 import { ColumnLetterPipe } from '../utils/column-letter-pipe';
@@ -10,11 +10,12 @@ import { GameState } from '../models/enums';
   standalone: true,
   imports: [CommonModule, ColumnLetterPipe],
   templateUrl: './board.html',
-  styleUrl: './board.css'
+  styleUrl: './board.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BoardComponent implements OnInit {
   board: Cell[][] = [];
-  gameState: GameState = GameState.InProgress;
+  gameState = signal(GameState.InProgress);
   flagsRemaining = signal(0);
   percentCompleted = signal(0);
   readonly GameState = GameState;
@@ -28,14 +29,14 @@ export class BoardComponent implements OnInit {
 
   ngOnInit() {
     this.board = this.gameService.getBoard();
-    this.gameState = this.gameService.getGameState();
+    this.gameState.set(this.gameService.getGameState());
     this.flagsRemaining.set(this.gameService.getFlagsRemaining());
     this.percentCompleted.set(this.gameService.percentCompleted());
   }
 
   revealCell(row: number, col: number) {
     this.gameService.revealCell(row, col);
-    this.gameState = this.gameService.getGameState();
+    this.gameState.set(this.gameService.getGameState());
   }
 
   flagCell(event: MouseEvent, row: number, col: number) {
@@ -47,7 +48,7 @@ export class BoardComponent implements OnInit {
   resetGame() {
     this.gameService.resetGame();
     this.board = this.gameService.getBoard();
-    this.gameState = this.gameService.getGameState();
+    this.gameState.set(this.gameService.getGameState());
     this.flagsRemaining.set(this.gameService.getFlagsRemaining());
   }
 }
