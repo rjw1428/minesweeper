@@ -43,3 +43,10 @@ h1 {
 .dark-mode-toggle input[type="checkbox"]:checked::before {
   transform: translateX(20px);
 }
+
+.mobile-help-text {
+  text-align: center;
+  font-size: 0.9em;
+  color: #999;
+  margin-top: 10px;
+}

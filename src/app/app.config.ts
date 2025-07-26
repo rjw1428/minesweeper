@@ -1,3 +1,4 @@
+import { Platform } from '@angular/cdk/platform';
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection, InjectionToken } from '@angular/core';
 
 export interface BoardConfig {
@@ -18,6 +19,6 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    { provide: BOARD_CONFIG, useValue: defaultBoardConfig }
+    { provide: BOARD_CONFIG, useValue: defaultBoardConfig },
   ]
 };

@@ -17,7 +17,6 @@ export class BoardComponent implements OnInit {
   gameState: GameState = GameState.InProgress;
   flagsRemaining = signal(0);
   percentCompleted = signal(0);
-
   readonly GameState = GameState;
 
   constructor(private gameService: GameService) {
