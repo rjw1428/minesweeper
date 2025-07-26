@@ -4,7 +4,15 @@ import { BoardComponent } from './board/board';
 @Component({
   selector: 'app-root',
   imports: [BoardComponent],
-  templateUrl: './app.html',
+  template: `
+    <div class="container">
+    <h1>Minesweeper</h1>
+    <app-board></app-board>
+    <div class="dark-mode-toggle">
+      <label for="darkModeToggle">Dark Mode</label>
+      <input type="checkbox" id="darkModeToggle" (change)="toggleDarkMode()" [checked]="isDarkMode">
+    </div>
+  </div>`,
   styleUrl: './app.css'
 })
 export class App implements OnInit {

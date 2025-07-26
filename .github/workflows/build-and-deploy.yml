@@ -4,8 +4,10 @@ on:
   push:
     branches: ["main"]
     paths:
-      - 'src/**'
       - '.github/workflows/build-and-deploy.yml'
+      - '!/.github/workflows'
+    paths-ignore:
+      - 'src-tauri/**'
 
   pull_request:
     types: [closed]
@@ -38,6 +40,8 @@ jobs:
           node-version: '24'
       - name: Install dependencies
         run: npm ci
+      - name: Test
+        run: npm run test
       - name: Build Angular application
         run: npm run build
       - name: Upload artifact

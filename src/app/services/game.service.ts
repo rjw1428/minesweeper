@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { Cell } from '../models/models';
 import { GameState } from '../models/enums';
-
+import { boardConfig } from '../app.config';
 
 @Injectable({
   providedIn: 'root'
@@ -9,9 +9,9 @@ import { GameState } from '../models/enums';
 export class GameService {
   private board: Cell[][] = [];
   private flagsPlaced = 0;
-  private readonly rows = 10;
-  private readonly cols = 10;
-  private readonly mines = 15;
+  private readonly rows = boardConfig.rows;
+  private readonly cols = boardConfig.columns;
+  private readonly mines = boardConfig.mines;
   private gameState: GameState = GameState.InProgress;
   public percentCompleted = signal(0);
 
