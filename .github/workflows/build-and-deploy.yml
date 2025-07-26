@@ -3,9 +3,6 @@ name: Minesweeper Build & Deploy
 on:
   push:
     branches: ["main"]
-    paths:
-      - '.github/workflows/build-and-deploy.yml'
-      - '!/.github/workflows'
     paths-ignore:
       - 'src-tauri/**'
 
