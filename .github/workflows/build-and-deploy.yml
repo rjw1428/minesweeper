@@ -3,6 +3,9 @@ name: Minesweeper Build & Deploy
 on:
   push:
     branches: ["main"]
+    paths:
+      - 'src/**'
+      - '.github/workflows/build-and-deploy.yml'
 
   pull_request:
     types: [closed]
