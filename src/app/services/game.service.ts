@@ -60,19 +60,18 @@ export class GameService {
   }
 
   private calculateAdjacentMines(row: number, col: number): number {
-    let count = 0;
-    for (let r = -1; r <= 1; r++) {
-      for (let c = -1; c <= 1; c++) {
-        const newRow = row + r;
-        const newCol = col + c;
-        if (newRow >= 0 && newRow < this.rows && newCol >= 0 && newCol < this.cols) {
-          if (this.board[newRow][newCol].hasMine) {
-            count++;
-          }
-        }
-      }
-    }
-    return count;
+    const neighbors = [-1, 0, 1];
+    return neighbors.flatMap(r =>
+      neighbors.map(c => [row + r, col + c])
+    )
+    .filter(([newRow, newCol]) =>
+      !(newRow === row && newCol === col) &&
+      newRow >= 0 && newRow < this.rows &&
+      newCol >= 0 && newCol < this.cols
+    )
+    .reduce((count, [newRow, newCol]) =>
+      count + (this.board[newRow][newCol].hasMine ? 1 : 0), 0
+    );
   }
 
   getBoard(): Cell[][] {
@@ -140,14 +139,13 @@ export class GameService {
   }
 
   private checkWinCondition(): void {
-    let revealedCells = 0;
-    for (let r = 0; r < this.rows; r++) {
-      for (let c = 0; c < this.cols; c++) {
-        if (this.board[r][c].isRevealed && !this.board[r][c].hasMine) {
-          revealedCells++;
-        }
-      }
-    }
+    const isRevealed = (cell: Cell) => +(cell.isRevealed && !cell.hasMine);
+
+    const revealedCells = this.board.reduce(
+      (boardRevealCount, row) => boardRevealCount + row.reduce(
+        (rowRevealCount, cell) => rowRevealCount + isRevealed(cell), 0
+      ), 0
+    );
 
     if (revealedCells === this.rows * this.cols - this.mines) {
       this.gameState = GameState.Won;
@@ -156,29 +154,32 @@ export class GameService {
   }
 
   private updatePercentCompleted(): void {
-    let revealedNonMineCells = 0;
-    let totalNonMineCells = this.rows * this.cols - this.mines;
+    const totalNonMineCells = this.rows * this.cols - this.mines;
+    
+    const revealedNonMineCells = this.board
+      .flat()
+      .filter(cell => cell.isRevealed && !cell.hasMine)
+      .length;
 
-    for (let r = 0; r < this.rows; r++) {
-      for (let c = 0; c < this.cols; c++) {
-        if (this.board[r][c].isRevealed && !this.board[r][c].hasMine) {
-          revealedNonMineCells++;
-        }
-      }
-    }
-    this.percentCompleted.set(totalNonMineCells > 0 ? Math.floor((revealedNonMineCells / totalNonMineCells) * 100) : 0);
+    const updatedPercent = totalNonMineCells > 0 
+      ? Math.floor((revealedNonMineCells / totalNonMineCells) * 100) 
+      : 0;
+
+    this.percentCompleted.set(updatedPercent);
   }
 
   private revealAllMines(): void {
-    for (let r = 0; r < this.rows; r++) {
-      for (let c = 0; c < this.cols; c++) {
-        const cell = this.board[r][c];
+    this.board.forEach(row =>
+      row.forEach(cell => {
         if (cell.hasMine && !cell.isFlagged) {
           cell.isRevealed = true;
-        } else if (!cell.hasMine && cell.isFlagged) {
-          cell.isIncorrectlyFlagged = true;
+          return;
         }
-      }
-    }
+        if (!cell.hasMine && cell.isFlagged) {
+          cell.isIncorrectlyFlagged = true;
+          return;
+        }
+      })
+    );
   }
 }
