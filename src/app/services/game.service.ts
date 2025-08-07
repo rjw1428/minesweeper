@@ -1,7 +1,7 @@
 import { Injectable, signal, Inject } from '@angular/core';
-import { Cell } from '../models/models';
+import { BoardConfig, Cell } from '../models/models';
 import { GameState } from '../models/enums';
-import { BoardConfig, BOARD_CONFIG } from '../app.config';
+import { BOARD_CONFIG } from '../app.config';
 
 @Injectable({
   providedIn: 'root'

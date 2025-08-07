@@ -1,11 +1,5 @@
-import { Platform } from '@angular/cdk/platform';
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection, InjectionToken } from '@angular/core';
-
-export interface BoardConfig {
-  rows: number;
-  columns: number;
-  mines: number;
-}
+import { BoardConfig } from './models/models';
 
 export const BOARD_CONFIG = new InjectionToken<BoardConfig>('boardConfig');
 

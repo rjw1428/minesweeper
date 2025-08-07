@@ -3,5 +3,11 @@ export interface Cell {
   isRevealed: boolean;
   isFlagged: boolean;
   adjacentMines: number;
-  isIncorrectlyFlagged?: boolean; // Added for incorrect flags
+  isIncorrectlyFlagged?: boolean;
+}
+
+export interface BoardConfig {
+  rows: number;
+  columns: number;
+  mines: number;
 }
